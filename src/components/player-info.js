@@ -41,6 +41,7 @@ AFRAME.registerComponent("player-info", {
   init() {
     this.displayName = null;
     this.identityName = null;
+    this.organisation = null;
     this.isOwner = false;
     this.isRecording = false;
     this.applyProperties = this.applyProperties.bind(this);
@@ -115,6 +116,7 @@ AFRAME.registerComponent("player-info", {
   updateDisplayNameFromPresenceMeta(presenceMeta) {
     this.displayName = presenceMeta.profile.displayName;
     this.identityName = presenceMeta.profile.identityName;
+    this.organisation = presenceMeta.profile.organisation;
     this.isRecording = !!(presenceMeta.streaming || presenceMeta.recording);
     this.isOwner = !!(presenceMeta.roles && presenceMeta.roles.owner);
     this.applyDisplayName();
@@ -137,6 +139,15 @@ AFRAME.registerComponent("player-info", {
         identityNameEl.object3D.visible = this.el.sceneEl.is("frozen");
       }
     }
+
+    const organisationEl = this.el.querySelector('.organisationName');
+    if (organisationEl) {
+      if (this.organisation) {
+        organisationEl.setAttribute("text", { value: this.organisation });
+        organisationEl.object3D.visible = !infoShouldBeHidden;
+      }
+    }
+
     const recordingBadgeEl = this.el.querySelector(".recordingBadge");
     if (recordingBadgeEl) {
       recordingBadgeEl.object3D.visible = this.isRecording && !infoShouldBeHidden;

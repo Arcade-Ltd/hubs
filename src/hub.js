@@ -1110,6 +1110,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     for (const modelEl of environmentScene.children) {
       addAnimationComponents(modelEl);
     }
+
+    var button = document.querySelector(".Right")
+    button.setAttribute("box", "");
+
+    var button = document.querySelector(".Left")
+    button.setAttribute("box", "");
+
+
   });
 
   // Socket disconnects on refresh but we don't want to show exit scene in that scenario.

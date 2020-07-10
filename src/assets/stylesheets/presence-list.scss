@@ -25,6 +25,14 @@
   }
 }
 
+:local(.presenceOrg) {
+  flex: 1;
+  text-align: left;
+  p {
+    margin-right: 8px;
+  }
+}
+
 :local(.sign-in) {
   display: flex;
   justify-content: center;

@@ -147,6 +147,9 @@ export default class PresenceList extends Component {
               [styles.listItem]: true
             })}
           >
+            <div className={styles.presenceOrg}>
+              <span>{profile && profile.organisation}</span>
+            </div>
             {sessionId === this.props.sessionId ? (
               <StateLink className={styles.self} stateKey="overlay" stateValue="profile" history={this.props.history}>
                 {profile && profile.displayName}
@@ -168,6 +171,7 @@ export default class PresenceList extends Component {
               </div>
             )}
           </div>
+          
           <div className={styles.presence}>
             <FormattedMessage id={messageId} />
           </div>

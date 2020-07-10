@@ -396,6 +396,7 @@ export async function loadGLTF(src, contentType, preferredTechnique, onProgress,
     parser.getDependencies("camera"),
     Promise.all(extensionDeps)
   ]);
+
   const gltf = {
     scene: scenes[parser.json.scene || 0],
     scenes,
@@ -405,6 +406,8 @@ export async function loadGLTF(src, contentType, preferredTechnique, onProgress,
     parser,
     userData: {}
   };
+
+  console.log(gltf);
 
   // this is likely a noop since the whole parser will get GCed
   parser.cache.removeAll();
@@ -545,7 +548,7 @@ AFRAME.registerComponent("gltf-model-plus", {
       if (this.data.batch) {
         this.el.sceneEl.systems["hubs-systems"].batchManagerSystem.addObject(this.model);
       }
-
+      
       if (gltf.animations.length > 0) {
         this.el.setAttribute("animation-mixer", {});
         this.el.components["animation-mixer"].initMixer(this.model.animations);

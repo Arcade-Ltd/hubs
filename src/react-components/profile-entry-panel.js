@@ -47,8 +47,8 @@ class ProfileEntryPanel extends Component {
   }
 
   getStateFromProfile = () => {
-    const { displayName, avatarId } = this.props.store.state.profile;
-    return { displayName, avatarId };
+    const { displayName, organisation, avatarId } = this.props.store.state.profile;
+    return { displayName, organisation, avatarId };
   };
 
   storeUpdated = () => this.setState(this.getStateFromProfile());
@@ -57,6 +57,7 @@ class ProfileEntryPanel extends Component {
     e && e.preventDefault();
 
     const { displayName } = this.props.store.state.profile;
+    const { organisation } = this.props.store.state.profile;
     const { hasChangedName } = this.props.store.state.activity;
 
     const hasChangedNowOrPreviously = hasChangedName || this.state.displayName !== displayName;
@@ -67,6 +68,7 @@ class ProfileEntryPanel extends Component {
       },
       profile: {
         displayName: this.state.displayName,
+        organisation: this.state.organisation,
         avatarId: this.state.avatarId
       }
     });
@@ -157,6 +159,27 @@ class ProfileEntryPanel extends Component {
                 pattern={SCHEMA.definitions.profile.properties.displayName.pattern}
                 title={formatMessage({ id: "profile.display_name.validation_warning" })}
                 ref={inp => (this.nameInput = inp)}
+              />
+            )}
+
+            <label htmlFor="#profile-entry-organisation-name" className={styles.title}>
+              <FormattedMessage id="profile.organisation" />
+            </label>
+            {this.props.displayNameOverride ? (
+              <span className={styles.displayName}>{this.props.displayNameOverride}</span>
+            ) : (
+              <input
+                id="profile-entry-organisation-name"
+                className={styles.formFieldText}
+                value={this.state.organisation}
+                onFocus={e => handleTextFieldFocus(e.target)}
+                onBlur={() => handleTextFieldBlur()}
+                onChange={e => this.setState({ organisation: e.target.value })}
+                required
+                spellCheck="false"
+                pattern={SCHEMA.definitions.profile.properties.displayName.pattern}
+                title={formatMessage({ id: "profile.display_name.validation_warning" })}
+                ref={inp => (this.organisationInput = inp)}
               />
             )}
 

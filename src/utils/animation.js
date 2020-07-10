@@ -6,4 +6,5 @@ export function addAnimationComponents(modelEl) {
   if (!modelEl.querySelector("[loop-animation]")) {
     modelEl.setAttribute("loop-animation", "");
   }
+  
 }

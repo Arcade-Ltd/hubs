@@ -68,6 +68,13 @@ AFRAME.registerSystem("interaction", {
     );
   },
 
+  getIntersection(){
+    return (
+      (this.rightCursorControllerEl.components["cursor-controller"].intersection) ||
+      (this.leftCursorControllerEl.components["cursor-controller"].intersection)
+    );
+  },
+
   isHoldingAnything() {
     return !!(
       this.state.leftHand.held ||
