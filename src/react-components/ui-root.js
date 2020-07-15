@@ -82,6 +82,8 @@ import qsTruthy from "../utils/qs_truthy";
 import { CAMERA_MODE_INSPECT } from "../systems/camera-system";
 const avatarEditorDebug = qsTruthy("avatarEditorDebug");
 
+import SequenceController from "./sequence-controller.js";
+
 addLocaleData([...en]);
 
 // This is a list of regexes that match the microphone labels of HMDs.
@@ -2074,6 +2076,12 @@ class UIRoot extends Component {
                     this.setState({ isPresenceListExpanded: expand });
                   }
                 }}
+              />
+            )}
+
+            {showPresenceList && (
+              <SequenceController
+                sequence={0}
               />
             )}
 

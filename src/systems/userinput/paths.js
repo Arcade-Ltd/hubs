@@ -22,6 +22,7 @@ paths.actions.ensureFrozen = "/actions/ensureFrozen";
 paths.actions.toggleFreeze = "/actions/toggleFreeze";
 paths.actions.thaw = "/actions/thaw";
 paths.actions.muteMic = "/actions/muteMic";
+paths.actions.promoteMic = "/actions/promoteMic";
 paths.actions.toggleFly = "/actions/toggleFly";
 paths.actions.toggleUI = "/actions/toggleUI";
 paths.actions.waypointDeltaDistance = "/actions/waypointDeltaDistance";

@@ -335,6 +335,7 @@ export default class SceneEntryManager {
     });
 
     this.scene.addEventListener("action_mute_client", ({ detail: { clientId } }) => {
+      console.log("asdasd");
       this.performConditionalSignIn(
         () => this.hubChannel.can("mute_users"),
         () => window.APP.hubChannel.mute(clientId),

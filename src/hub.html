@@ -46,8 +46,10 @@
             multiview: false;"
         shadow="type: pcfsoft"
         networked-scene="audio: true; debug: true; connectOnLoad: false;"
-        mute-mic="eventSrc: a-scene; toggleEvents: action_mute"
+        mute-mic="eventSrc: a-scene; toggleEvents: action_mute"    
         action-to-event__mute="path: /actions/muteMic; event: action_mute;"
+        promote-mic="eventSrc: a-scene; toggleEvents: action_promote"
+        action-to-event__promote="path: /actions/promoteMic; toggleEvents: action_promote"
         freeze-controller
         personal-space-bubble="debug: false;"
         rotate-selected-object
@@ -198,6 +200,7 @@
 
                         <template data-name="Head">
                             <a-entity
+                                id="AvatarHead"
                                 avatar-audio-source="rolloffFactor: 2.0;"
                                 personal-space-invader="radius: 0.15; useMaterial: true;"
                                 bone-visibility

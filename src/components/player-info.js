@@ -36,7 +36,8 @@ AFRAME.registerComponent("player-info", {
   schema: {
     avatarSrc: { type: "string" },
     avatarType: { type: "string", default: AVATAR_TYPES.SKINNABLE },
-    muted: { default: false }
+    muted: { default: false },
+    promoted: {default: false}
   },
   init() {
     this.displayName = null;
@@ -181,10 +182,18 @@ AFRAME.registerComponent("player-info", {
     if (e.detail === "muted") {
       this.el.setAttribute("player-info", { muted: true });
     }
+
+    if (e.detail === "promoted") {
+      this.el.setAttribute("player-info", { promoted: true });
+    }
   },
   localStateRemoved(e) {
     if (e.detail === "muted") {
       this.el.setAttribute("player-info", { muted: false });
+    }
+
+    if (e.detail === "promoted") {
+      this.el.setAttribute("player-info", { promoted: false });
     }
   }
 });

@@ -11,7 +11,7 @@ AFRAME.registerComponent("trigger-volume", {
     enterProperty: { type: "string" },
     enterValue: {
       default: "",
-      parse: v => (typeof v === "object" ? v : JSON.parse(v)),
+      parse: v => (typeof v === "object"  ? v : JSON.parse(v)),
       stringify: JSON.stringify
     },
     leaveComponent: { type: "string" },
@@ -20,7 +20,8 @@ AFRAME.registerComponent("trigger-volume", {
       default: "",
       parse: v => (typeof v === "object" ? v : JSON.parse(v)),
       stringify: JSON.stringify
-    }
+    },
+    custom: { type: 'boolean', default: true}
   },
   init() {
     this.boundingBox = new THREE.Box3();
@@ -45,7 +46,23 @@ AFRAME.registerComponent("trigger-volume", {
       const collidingLastFrame = this.collidingLastFrame[object3D.id];
 
       if (isColliding && !collidingLastFrame) {
-        this.data.target.setAttribute(this.data.enterComponent, this.data.enterProperty, this.data.enterValue);
+        console.log(this.data.custom);
+        if(this.data.custom){
+          if(this.el.classList.contains("LeftDoor")){
+            console.log("left");
+            const event = new CustomEvent('sequence', { detail: {choice: "Left" }});
+    
+            this.el.dispatchEvent(event);
+
+          }else if(this.el.classList.contains("RightDoor")){
+            const event = new CustomEvent('sequence', { detail: {choice: "Right" }});
+            console.log("right");
+            this.el.dispatchEvent(event);
+         
+          }
+        }else{
+          this.data.target.setAttribute(this.data.enterComponent, this.data.enterProperty, this.data.enterValue);
+        }
       } else if (!isColliding && collidingLastFrame) {
         this.data.target.setAttribute(this.data.leaveComponent, this.data.leaveProperty, this.data.leaveValue);
       }

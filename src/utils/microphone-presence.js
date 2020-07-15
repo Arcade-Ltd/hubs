@@ -28,8 +28,9 @@ export const getMicrophonePresences = (() => {
           const presence = microphonePresences.get(playerSessionId);
           presence.muted = playerInfo.data.muted;
           presence.talking = talking;
+          presence.promoted = playerInfo.data.promoted;
         } else {
-          microphonePresences.set(playerSessionId, { muted: playerInfo.data.muted, talking });
+          microphonePresences.set(playerSessionId, { muted: playerInfo.data.muted, talking, promoted: playerInfo.data.promoted});
         }
       }
     }

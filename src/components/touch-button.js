@@ -43,26 +43,21 @@ AFRAME.registerComponent('box', {
     tick() {
       var intersectionR = this.el.sceneEl.systems.interaction.getIntersection();
       
-  
-        if(intersectionR != null ){
-            //var box = document.querySelector(".AnimatedCube");
-          
-            /*
-            if(intersectionR.object.el.classList.contains("Left")){
-              box.setAttribute("loop-animation", "paused", false);
-            }else if(intersectionR.object.el.classList.contains("Right")){
-              box.setAttribute("loop-animation", "paused", true);
-            }
-            */
 
-           var box = document.querySelector(".Wolf");
+        if(intersectionR != null ){
+
+           //var box = document.querySelector(".Wolf");
            if(intersectionR.object.el.classList.contains("Left")){
+            const event = new CustomEvent('sequence', { detail: {choice: "Left" }});
+            
+            this.el.dispatchEvent(event);
           
             //box.setAttribute("visible", true);
             //box.setAttribute("loop-animation", {paused: false, activeClipIndex: 2});
           }else if(intersectionR.object.el.classList.contains("Right")){
-           // box.setAttribute("loop-animation", {paused: false, activeClipIndex: 1});
-           //box.setAttribute("visible", false);
+            const event = new CustomEvent('sequence', { detail: {choice: "Right" }});
+            
+            this.el.dispatchEvent(event);
          
           }
         }

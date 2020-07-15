@@ -109,6 +109,12 @@
   justify-content: center;
 }
 
+:local(.sequence) {
+  padding-top: 15%;
+  display: flex;
+  justify-content: center;
+}
+
 :local(.mute-button) {
   @extend %action-button;
   pointer-events: auto;

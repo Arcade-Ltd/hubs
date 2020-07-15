@@ -52,6 +52,8 @@ AFRAME.registerComponent("mute-mic", {
   },
 
   onToggle: function() {
+
+    console.log("toggle");
     if (!NAF.connection.adapter) return;
     if (!this.el.sceneEl.is("entered")) return;
 
@@ -66,6 +68,7 @@ AFRAME.registerComponent("mute-mic", {
   },
 
   onMute: function() {
+    console.log("mute");
     if (!NAF.connection.adapter) return;
     if (!this.el.is("muted")) {
       NAF.connection.adapter.enableMicrophone(false);
@@ -74,6 +77,7 @@ AFRAME.registerComponent("mute-mic", {
   },
 
   onUnmute: function() {
+    console.log("unmute");
     if (this.el.is("muted")) {
       NAF.connection.adapter.enableMicrophone(true);
       this.el.removeState("muted");

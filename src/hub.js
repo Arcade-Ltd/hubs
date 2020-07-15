@@ -41,6 +41,7 @@ import "./naf-dialog-adapter";
 import "./components/scene-components";
 import "./components/scale-in-screen-space";
 import "./components/mute-mic";
+import "./components/promote-mic";
 import "./components/bone-mute-state-indicator";
 import "./components/bone-visibility";
 import "./components/fader";
@@ -1118,6 +1119,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     button.setAttribute("box", "");
 
 
+
+    document.querySelector(".LeftDoor").setAttribute("trigger-volume", {custom: true});
+    document.querySelector(".RightDoor").setAttribute("trigger-volume", {custom: true});
+
+
+
+
+
   });
 
   // Socket disconnects on refresh but we don't want to show exit scene in that scenario.
@@ -1232,6 +1241,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   const hubPhxChannel = socket.channel(`hub:${hubId}`, createHubChannelParams(oauthFlowPermsToken));
+
+  console.log(hubPhxChannel);
 
   const presenceLogEntries = [];
   const addToPresenceLog = entry => {
@@ -1605,11 +1616,19 @@ document.addEventListener("DOMContentLoaded", async () => {
   hubPhxChannel.on("permissions_updated", () => hubChannel.fetchPermissions());
 
   hubPhxChannel.on("mute", ({ session_id }) => {
+    console.log("hi");
     if (session_id === NAF.clientId && !scene.is("muted")) {
       scene.emit("action_mute");
     }
   });
 
+  hubPhxChannel.on("promote", ({ session_id }) => {
+    console.log("promote");
+    if (session_id === NAF.clientId) {
+     
+      scene.emit("action_promote");
+    }
+  });
   authChannel.setSocket(socket);
   linkChannel.setSocket(socket);
 });

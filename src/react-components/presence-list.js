@@ -49,6 +49,14 @@ function getMicrophonePresenceIcon(microphonePresence) {
   }
 }
 
+function getPromotedPresenceIcon(microphonePresence) {
+  if (microphonePresence.promoted) {
+    return <FontAwesomeIcon icon={faVolumeUp} />;
+  } else {
+    return <FontAwesomeIcon icon={faVolumeOff} />;
+  }
+}
+
 export function navigateToClientInfo(history, clientId) {
   const currentParams = new URLSearchParams(history.location.search);
 
@@ -102,6 +110,10 @@ export default class PresenceList extends Component {
     }
   };
 
+  promote = clientId => {
+    this.props.hubChannel.promote(clientId);
+  }
+
   domForPresence = ([sessionId, data]) => {
     const meta = data.metas[data.metas.length - 1];
     const context = meta.context;
@@ -126,6 +138,12 @@ export default class PresenceList extends Component {
     const muted = microphonePresence && microphonePresence.muted;
     const canMuteIndividual = canMuteUsers && !isMe && microphonePresence && !microphonePresence.muted;
 
+    //const canPromoteSpeakers = this.props.hubChannel.can("promote_speaker");
+    const canPromoteIndividual = canMuteUsers && microphonePresence && !microphonePresence.muted;
+    const promoted = microphonePresence && microphonePresence.promoted;
+    const promotedState =
+      microphonePresence && meta.presence === "room" ? getPromotedPresenceIcon(microphonePresence) : "";
+
     return (
       <WithHoverSound key={sessionId}>
         <div className={styles.row}>
@@ -142,6 +160,16 @@ export default class PresenceList extends Component {
           >
             <i>{micState}</i>
           </div>
+          <button
+            className={classNames({
+              [styles.iconRed]: promoted,
+              [styles.icon]: !promoted,
+              [styles.iconButton]: canPromoteIndividual
+            })}
+            onClick={() => canMuteUsers ? this.promote(sessionId) : null}
+          >
+            <i>{promotedState}</i>
+          </button>
           <div
             className={classNames({
               [styles.listItem]: true

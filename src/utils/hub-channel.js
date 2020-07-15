@@ -22,7 +22,8 @@ const HUB_CREATOR_PERMISSIONS = [
   "update_roles",
   "close_hub",
   "mute_users",
-  "kick_users"
+  "kick_users",
+  "promote_speaker"
 ];
 const VALID_PERMISSIONS =
   HUB_CREATOR_PERMISSIONS +
@@ -356,9 +357,11 @@ export default class HubChannel extends EventTarget {
     });
   };
 
-  mute = sessionId => this.channel.push("mute", { session_id: sessionId });
+  mute = sessionId => {this.channel.push("mute", { session_id: sessionId })};
   addOwner = sessionId => this.channel.push("add_owner", { session_id: sessionId });
   removeOwner = sessionId => this.channel.push("remove_owner", { session_id: sessionId });
+
+  promote = sessionId => {this.channel.push("promote", { session_id: sessionId })};
 
   hide = sessionId => {
     NAF.connection.adapter.block(sessionId);
