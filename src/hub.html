@@ -58,6 +58,7 @@
         light="defaultLightsEnabled: false"
     >
         <a-assets>
+            <video id="greenscreenvideo" src="https://dl.dropbox.com/s/8qkot2sqh4qo7vd/videoplayback.mp4" loop autoplay muted />
             <img id="presence-count" crossorigin="anonymous" src="./assets/hud/presence-count.png">
             <img id="action-button" crossorigin="anonymous" src="./assets/hud/action_button.9.png">
             <img id="button" crossorigin="anonymous" src="./assets/hud/button.9.png">
@@ -1255,6 +1256,8 @@
             
         >
             <a-entity id="environment-scene"></a-entity>
+            
+            <a-entity material="shader: chromakey; src: #greenscreenvideo; color: 0.1 0.9 0.2" geometry="primitive: box"></a-entity>
         </a-entity>
 
         <!-- Objects -->
@@ -1319,6 +1322,7 @@
     </a-scene>
 
     <div id="ui-root"></div>
+    <script src='../src/utils/threex.chromakey.js'></script>
 </body>
 
 </html>

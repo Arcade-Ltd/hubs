@@ -37,7 +37,6 @@ import { addAnimationComponents } from "./utils/animation";
 import { authorizeOrSanitizeMessage } from "./utils/permissions-utils";
 import Cookies from "js-cookie";
 import "./naf-dialog-adapter";
-
 import "./components/scene-components";
 import "./components/scale-in-screen-space";
 import "./components/mute-mic";
@@ -1112,16 +1111,16 @@ document.addEventListener("DOMContentLoaded", async () => {
       addAnimationComponents(modelEl);
     }
 
-    var button = document.querySelector(".Right")
-    button.setAttribute("box", "");
+    //var button = document.querySelector(".Right")
+    //button.setAttribute("box", "");
 
-    var button = document.querySelector(".Left")
-    button.setAttribute("box", "");
+    //var button = document.querySelector(".Left")
+    //button.setAttribute("box", "");
 
 
 
-    document.querySelector(".LeftDoor").setAttribute("trigger-volume", {custom: true});
-    document.querySelector(".RightDoor").setAttribute("trigger-volume", {custom: true});
+    //document.querySelector(".LeftDoor").setAttribute("trigger-volume", {custom: true});
+    //document.querySelector(".RightDoor").setAttribute("trigger-volume", {custom: true});
 
 
 

@@ -2079,11 +2079,7 @@ class UIRoot extends Component {
               />
             )}
 
-            {showPresenceList && (
-              <SequenceController
-                sequence={0}
-              />
-            )}
+        
 
             {showSettingsMenu && (
               <SettingsMenu

@@ -27,4 +27,4 @@ import "./environment-map";
 import "./trigger-volume";
 import "./video-pause-state";
 import "./particle-emitter";
-import "./touch-button";
+import "../utils/aframe-chromakey-material";

@@ -37,6 +37,7 @@ const isMobileVR = AFRAME.utils.device.isMobileVR();
 const isFirefoxReality = isMobileVR && navigator.userAgent.match(/Firefox/);
 const HLS_TIMEOUT = 10000; // HLS can sometimes fail, we re-try after this duration
 const audioIconTexture = new THREE.TextureLoader().load(audioIcon);
+var actualTexture;
 
 export const VOLUME_LABELS = [];
 for (let i = 0; i <= 20; i++) {
@@ -506,6 +507,11 @@ AFRAME.registerComponent("media-video", {
 
   update(oldData) {
     this.updatePlaybackState();
+    if(actualTexture){
+  
+      actualTexture.needsUpdate = true;
+    }
+    
 
     const shouldUpdateSrc = this.data.src && this.data.src !== oldData.src;
     if (shouldUpdateSrc) {
@@ -652,7 +658,42 @@ AFRAME.registerComponent("media-video", {
     const projection = this.data.projection;
 
     if (!this.mesh || projection !== oldData.projection) {
-      const material = new THREE.MeshBasicMaterial();
+      //const material = new THREE.MeshBasicMaterial();
+
+     if(actualTexture){
+      const material = new THREE.ShaderMaterial({
+        
+	      uniforms: {
+	        color: {
+	          value: new THREE.Color(0xd432)
+          },
+          map: {
+            value: texture
+          }
+        },
+      
+	      vertexShader:
+        "varying vec2 vUv;\n" +
+        "void main(void)\n" +
+        "{\n" +
+        "vUv = uv;\n" +
+        "vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );\n" +
+        "gl_Position = projectionMatrix * mvPosition;\n" +
+        "}",
+        fragmentShader:
+        "uniform sampler2D map;\n" +
+        "uniform vec3 color;\n" +
+        "varying vec2 vUv;\n" +
+        "void main(void)\n" +
+        "{\n" +
+        "  vec3 tColor = texture2D( map, vUv ).rgb;\n" +
+        "  float a = (length(tColor - color) - 0.5) * 7.0;\n" +
+        "  gl_FragColor = vec4(tColor, a);\n" +
+        "}",
+        transparent: true
+      })
+
+      material.uniforms.map.value.needsUpdate = true;
 
       let geometry;
 
@@ -667,12 +708,15 @@ AFRAME.registerComponent("media-video", {
 
       this.mesh = new THREE.Mesh(geometry, material);
       this.el.setObject3D("mesh", this.mesh);
+     }
+      
     }
 
     if (this.data.contentType.startsWith("audio/")) {
       this.mesh.material.map = audioIconTexture;
     } else {
-      this.mesh.material.map = texture;
+      t//his.mesh.material.map = texture;
+      this.mesh.material.uniforms.map = texture;
     }
     this.mesh.material.needsUpdate = true;
 
@@ -717,9 +761,13 @@ AFRAME.registerComponent("media-video", {
         texture.image = videoEl;
         isReady = () => true;
       } else {
+        console.log("making texture");
         texture = new THREE.VideoTexture(videoEl);
+        
         texture.minFilter = THREE.LinearFilter;
-        texture.encoding = THREE.sRGBEncoding;
+        actualTexture = texture;
+        actualTexture.needsUpdate = true;
+        //texture.encoding = THREE.sRGBEncoding;
         isReady = () =>
           (texture.image.videoHeight || texture.image.height) && (texture.image.videoWidth || texture.image.width);
       }
@@ -922,6 +970,8 @@ AFRAME.registerComponent("media-video", {
           `${timeFmt(this.video.currentTime)} / ${timeFmt(this.video.duration)}`
         );
       }
+
+      actualTexture.needsUpdate = true;
 
       // If a known non-live video is currently playing and we own it, send out time updates
       if (
